@@ -15,7 +15,7 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
 
         // Redirect to dashboard after 1 second
         setTimeout(() => {
-            window.location.href = "dashboard.html";  // Change this to your actual dashboard
+            window.location.href = "student.html";  // Change this to your actual dashboard
         }, 1000);
     } else {
         document.getElementById("error-message").textContent = "Invalid email or password!";
