@@ -69,7 +69,7 @@ body {
 .image-slider {
     display: flex;
     width: 200%;
-    animation: scrollImages 30s linear infinite;
+    animation: scrollImages 60s linear infinite;
 }
 
 .image-slider img {
