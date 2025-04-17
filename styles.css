@@ -661,6 +661,7 @@ button:hover {
     }
   }
 /* company logo*/
+/* Company Carousel Section */
 .company-carousel-section {
     padding: 40px 20px;
     background-color: #ffffff4d;
@@ -668,40 +669,38 @@ button:hover {
     text-align: center;
   }
   
-  .carousel-title {
+  .company-carousel-section .carousel-title {
     font-size: 28px;
     font-weight: bold;
     color: #032340;
     margin-bottom: 20px;
   }
   
-  .carousel-container {
+  .company-carousel-section .carousel-container {
     overflow: hidden;
     position: relative;
     width: 100%;
   }
   
-  .carousel-track {
+  .company-carousel-section .carousel-track {
     display: flex;
     gap: 40px;
     animation: scrollLogos 20s linear infinite;
   }
   
-  .company-card {
+  .company-carousel-section .company-card {
     flex: 0 0 auto;
     text-align: center;
     width: 180px;
   }
   
-  .company-card img {
+  .company-carousel-section .company-card img {
     width: 150px;
     height: 120px;
     object-fit: contain;
     margin-bottom: 10px;
   }
   
-  
-  /* Animation */
   @keyframes scrollLogos {
     0% {
       transform: translateX(0);
@@ -710,4 +709,5 @@ button:hover {
       transform: translateX(-50%);
     }
   }
+  
   
