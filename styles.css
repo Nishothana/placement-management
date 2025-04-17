@@ -710,4 +710,66 @@ button:hover {
     }
   }
   
+  /* Responsive Design */
+  .batch-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 40px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .batch-box {
+    background: #fff;
+    border-left: 5px solid #0fa885;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .batch-header {
+    background-color: #064d3c;
+    color: white;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  .batch-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: #f9f9f9;
+    padding: 0 16px;
+  }
+  
+  .batch-content ul {
+    list-style: disc;
+    padding: 10px 20px;
+    margin: 0;
+  }
+  
+  .batch-content li {
+    margin-bottom: 10px;
+  }
+  
+  .batch-content a {
+    color: #064d3c;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+  
+  .batch-content a:hover {
+    color: #0fa885;
+    text-decoration: underline;
+  }
+  
+  .batch-box.active .batch-content {
+    max-height: 500px; /* adjust depending on content */
+    padding: 10px 16px;
+  }
   
