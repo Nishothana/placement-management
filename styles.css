@@ -767,3 +767,59 @@ button:hover {
     max-height: 500px; /* enough for 7 lines */
   }
   
+  /* uploads */
+  form {
+    background-color: #ffffff;
+    max-width: 500px;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    color: #010D26;
+  }
+  
+  select, input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+  }
+  
+  select:focus, input[type="file"]:focus {
+    border-color: #345573;
+    outline: none;
+  }
+  
+  button {
+    background-color: #0fa885;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  button:hover {
+    background-color: #064d3c;
+  }
+  
+  @media (max-width: 600px) {
+    form {
+      padding: 15px;
+    }
+  
+    button {
+      font-size: 14px;
+    }
+  }
