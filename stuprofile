@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Profile</title>
+  <link rel="stylesheet" href="student-profile.css" />
+</head>
+<style>body {
+    font-family: "Segoe UI", sans-serif;
+    background-color: #010D26;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  </style>
+<body>
+  <div class="profile-container">
+    <div class="profile-card">
+      <div class="profile-img">
+        <img src="student.jpg" alt="Student Photo" />
+      </div>
+      <div class="profile-info">
+        <h2>John Doe</h2>
+        <p><strong>Email:</strong> john.doe@example.com</p>
+        <p><strong>Department:</strong> Computer Science</p>
+        <p><strong>CGPA:</strong> 8.6</p>
+        <p><strong>Skills:</strong></p>
+        <div class="skills">
+          <span>HTML</span>
+          <span>CSS</span>
+          <span>JavaScript</span>
+          <span>Python</span>
+        </div>
+        <a href="resume.pdf" class="resume-btn" download>Download Resume</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
