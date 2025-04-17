@@ -608,14 +608,14 @@ button:hover {
   /* Student Profile -statistics*/
   .statistics-section {
     padding: 40px 20px;
-    background-color: #fff;
+    background-color: #ffffff;
     font-family: 'Segoe UI', sans-serif;
   }
   
   .stats-title {
-    font-size: 24px;
+    font-size: 34px;
     font-weight: bold;
-    color: #79BF34;
+    color: #032340;
     margin-bottom: 20px;
   }
   
