@@ -7,8 +7,8 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
 
     // Dummy user data (Replace this with actual database authentication later)
     const users = {
-        "admin@example.com": { role: "admin", password: "admin123" },
-        "student@example.com": { role: "student", password: "student123" }
+        "admin@example.com": { role: "admin", password: "adm123" },
+        "student@example.com": { role: "student", password: "stu123" }
     };
 
     if (users[email] && users[email].password === password) {
