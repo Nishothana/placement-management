@@ -663,15 +663,15 @@ button:hover {
 /* company logo*/
 .company-carousel-section {
     padding: 40px 20px;
-    background-color: #f5f5f5;
+    background-color: #ffffff4d;
     font-family: 'Segoe UI', sans-serif;
     text-align: center;
   }
   
   .carousel-title {
-    font-size: 24px;
+    font-size: 28px;
     font-weight: bold;
-    color: #2e468c;
+    color: #032340;
     margin-bottom: 20px;
   }
   
@@ -684,26 +684,22 @@ button:hover {
   .carousel-track {
     display: flex;
     gap: 40px;
-    animation: scrollLogos 30s linear infinite;
+    animation: scrollLogos 20s linear infinite;
   }
   
   .company-card {
     flex: 0 0 auto;
     text-align: center;
-    width: 120px;
+    width: 180px;
   }
   
   .company-card img {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 120px;
     object-fit: contain;
     margin-bottom: 10px;
   }
   
-  .company-card p {
-    font-size: 14px;
-    color: #333;
-  }
   
   /* Animation */
   @keyframes scrollLogos {
