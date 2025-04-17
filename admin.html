@@ -46,7 +46,45 @@
             </div>
         </div>
     </div>
+
+<br><br>
+    <!-- upload.html -->
+<h3 class="stats-title">Upload Placement Status</h3>
+<form action="/upload-placement" method="POST" enctype="multipart/form-data">
+  <label>Select Year:</label>
+  <select name="year">
+    <option value="2020-2024">2020–2024</option>
+    <option value="2021-2025">2021–2025</option>
+    <option value="2022-2026">2020–2026</option>
+  
+  </select><br><br>
+
+  <label>Select File (PDF, Excel):</label>
+  <input type="file" name="placementFile" required><br><br>
+
+  <button type="submit">Upload</button>
+</form>
+
+<!-- placement-list.html -->
+<ul id="placement-list"></ul>
+
+<script>
+  fetch("http://localhost:3000/placement-files")
+    .then(res => res.json())
+    .then(data => {
+      const list = document.getElementById("placement-list");
+      data.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = `<strong>${item.year}</strong> - 
+          <a href="${item.file}" target="_blank">View Report</a>`;
+        list.appendChild(li);
+      });
+    });
+</script>
+
 </body>
+
+
 <!-- stats Section -->
     <section class="statistics-section">
         <h3 class="stats-title">Statistics</h3>
