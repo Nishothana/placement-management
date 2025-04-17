@@ -720,56 +720,50 @@ button:hover {
   }
   
   .batch-box {
-    background: #fff;
-    border-left: 5px solid #0fa885;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    width: 300px;
+    margin: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    border-left: 6px solid #84cc16;
     overflow: hidden;
     transition: all 0.3s ease;
   }
   
   .batch-header {
-    background-color: #064d3c;
-    color: white;
     padding: 16px;
-    font-size: 18px;
     font-weight: bold;
+    font-size: 18px;
+    background-color: #eef6ff;
     cursor: pointer;
     user-select: none;
   }
   
   .batch-content {
+    list-style: none;
+    padding: 0 16px;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.4s ease;
-    background: #f9f9f9;
-    padding: 0 16px;
-  }
-  
-  .batch-content ul {
-    list-style: disc;
-    padding: 10px 20px;
-    margin: 0;
   }
   
   .batch-content li {
-    margin-bottom: 10px;
+    padding: 8px 0;
   }
   
-  .batch-content a {
-    color: #064d3c;
+  .batch-content li a {
     text-decoration: none;
+    color: #064d3c;
     font-weight: 500;
-    transition: color 0.2s ease;
+    transition: color 0.2s;
   }
   
-  .batch-content a:hover {
-    color: #0fa885;
+  .batch-content li a:hover {
+    color: #79BF34;
     text-decoration: underline;
   }
   
   .batch-box.active .batch-content {
-    max-height: 500px; /* adjust depending on content */
-    padding: 10px 16px;
+    max-height: 500px; /* enough for 7 lines */
   }
   
