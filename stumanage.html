@@ -11,12 +11,13 @@
 <body>
     <nav class="navbar navbar-expand-lg custom-navbar">
         <div class="container">
-            <a class="navbar-brand" href="#" style="color: white;">Student Portal</a>
+            <a class="navbar-brand" href="#" style="color: white;">Admin panel</a>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="stuprofile.html">Profile</a></li>
-                    <li class="nav-item"><a class="nav-link" href="companymanagement.html">Job Applications</a></li>
-                    <li class="nav-item"><a class="nav-link" href="stureport.html">Reports</a></li>
+                  <li class="nav-item"><a class="nav-link" href="admin.html">Dashboard</a></li>
+                  <li class="nav-item"><a class="nav-link" href="stumanage.html" style="color:#79BF34;">Student Management</a></li>
+         
+                    <li class="nav-item"><a class="nav-link" href="reports.html">Reports</a></li>
                     <li class="nav-item"><a class="nav-link" href="index.html">Logout</a></li>
                 </ul>
             </div>
@@ -54,7 +55,41 @@
     </div>
   </div>
 
-  <!-- Add 2022-2026, 2023-2027 in the same way -->
+  <div class="batch-box">
+    <div class="batch-header">Batch 2022-2026</div>
+    <div class="batch-content">
+      <ul>
+        <li><a href="pdfs/2021_cse.pdf" target="_blank">CSE</a></li>
+        <li><a href="pdfs/2021_it.pdf" target="_blank">IT</a></li>
+        <li><a href="pdfs/2021_eee.pdf" target="_blank">EEE</a></li>
+        <li><a href="pdfs/2021_ece.pdf" target="_blank">ECE</a></li>
+        <li><a href="pdfs/2021_aids.pdf" target="_blank">AIDS</a></li>
+        <li><a href="pdfs/2021_civil.pdf" target="_blank">CIVIL</a></li>
+        <li><a href="pdfs/2021_mct.pdf" target="_blank">MCT</a></li>
+      </ul>
+    </div>
+  </div>
+
+  
 </div>
 </body>
 </html>
+<script>
+  const headers = document.querySelectorAll('.batch-header');
+
+  headers.forEach(header => {
+    header.addEventListener('click', () => {
+      const parent = header.parentElement;
+
+      // Close others
+      document.querySelectorAll('.batch-box').forEach(box => {
+        if (box !== parent) box.classList.remove('active');
+      });
+
+      // Toggle current
+      parent.classList.toggle('active');
+    });
+  });
+</script>
+
+
