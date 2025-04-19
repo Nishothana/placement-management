@@ -945,6 +945,7 @@ button:hover {
   
   .report-links {
     display: flex;
+    flex-direction: row;
     flex-wrap: wrap;
     gap: 40px;
     justify-content: center;
