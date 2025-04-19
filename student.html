@@ -44,6 +44,79 @@
             </div>
         </div>
     </div>
+<!-- Placement Overview Section -->
+<section class="placement-overview">
+  <h3>Placement Overview</h3>
+
+  <div class="overview-boxes">
+    <!-- Companies Attended -->
+    <div class="overview-card expandable">
+      <h3 >Companies Interview Attended </h3>
+      <p id="attended-count">5</p>
+      <p style="text-decoration: underline;", onclick="toggleDetails('attended-details')">Click for more<i class="fas fa-chevron-down"></i></p>
+      <ul id="attended-details" class="hidden">
+        <li>TCS</li>
+        <li>Infosys</li>
+        <li>Zoho</li>
+        <li>Wipro</li>
+        <li>Accenture</li>
+        <!-- Add more -->
+      </ul>
+    </div>
+
+    <!-- Resume Upload and View -->
+    <div class="overview-card">
+      <h3>Resume</h3>
+      <form action="/upload-resume" method="POST" enctype="multipart/form-data">
+        <input type="file" name="resume" accept=".pdf" required>
+        <button type="submit">Upload</button>
+      </form>
+      <div class="resume-display">
+        <p>Current Resume:</p>
+        <a href="assets/Nishothana Resume.pdf" target="_blank" download>Download Resume</a>
+      </div>
+    </div>
+
+    <!-- Upcoming Eligible Companies -->
+    <div class="overview-card expandable">
+      <h3 >Upcoming Eligible Companies</h3>
+      <p id="upcoming-count">3</p>
+      <p style="text-decoration: underline;", onclick="toggleDetails('upcoming-details')">Click for more<i class="fas fa-chevron-down"></i></p>
+      <ul id="upcoming-details" class="hidden">
+        <li>Amazon</li>
+        <li>IBM</li>
+        <li>HCL</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Student report Section -->
+<section class="reports-section">
+  <h2 class="section-title">Placement Reports</h2>
+  <div class="report-links">
+
+    <div class="report-box">
+      <h4>Companies Attended</h4>
+      <ul>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/infosys.pdf" target="_blank">Infosys</a></li>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/wipro.pdf" target="_blank">Wipro</a></li>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/tcs.pdf" target="_blank">TCS</a></li>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/accenture.pdf" target="_blank">Accenture</a></li>
+      </ul>
+    </div>
+
+    <div class="report-box">
+      <h4>Report Files</h4>
+      <ul>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/overall-report.pdf" target="_blank">Overall Placement Report</a></li>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/department-wise.pdf" target="_blank">Department-wise Report</a></li>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/company-wise.pdf" target="_blank">Company-wise Report</a></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
 
 
 
@@ -159,3 +232,10 @@
 </footer>
 
 </html>
+<script>
+  function toggleDetails(id) {
+    const element = document.getElementById(id);
+    element.classList.toggle("hidden");
+  }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
