@@ -117,6 +117,22 @@
 
   </div>
 </section>
+<!-- Skill Matcher Section -->
+<section id="skill-matcher" class="container my-5 position-relative">
+  <span class="refresh-btn" onclick="refreshSkillMatcher()" style="font-weight: bold;">×</span>
+  
+  <h2 class="text-center mb-4">Skill Based Companies</h2>
+  <form id="skillForm" class="mb-4">
+    <label for="skills" class="form-label">Enter your skills (comma separated):</label>
+    <input type="text" class="form-control" id="skills" placeholder="e.g. Java, Python, HTML">
+    <button type="submit" class="btn btn-success mt-3">Find Companies</button>
+  </form>
+
+  <!-- You can add a result display area below if needed -->
+  <div id="resultArea"></div>
+</section>
+
+
 
 
 
@@ -239,3 +255,94 @@
   }
 </script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  const companies = [
+    {
+      name: "Infosys",
+      logo: "assets/infosys-logo.png",
+      requiredSkills: ["Java", "Python"]
+    },
+    {
+      name: "Wipro",
+      logo: "assets/wipro-logo.png",
+      requiredSkills: ["Java", "C++", "SQL"]
+      
+    },
+    {
+      name: "TCS",
+      logo: "assets/tcs-logo.png",
+      requiredSkills: ["Java", "Spring", "SQL"]
+    }
+    ,
+    {
+      name: "Devtown",
+      logo: "assets/dev-logo.png",
+      requiredSkills: ["Java", "Python", "Machine Learning"]
+    },
+    {
+      name: "Cognizant",
+      logo: "assets/cog-logo.png",
+      requiredSkills: ["Java", "HTML", "CSS"]
+    },
+    {
+      name: "HCL",
+      logo: "assets/hcl-logo.png",
+      requiredSkills: ["Java", "JavaScript", "React"]
+    }
+    ,
+    {
+      name: "Bosch",
+      logo: "assets/bosch-logo.png",
+      requiredSkills: ["C++", "Embedded Systems"]
+    },
+  
+    {
+      name: "HCL",
+      logo: "assets/hcl-logo.png",
+      requiredSkills: ["Java", "C++", "SQL"]
+    }
+  ];
+
+  document.getElementById("skillForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const userInput = document.getElementById("skills").value;
+    const inputSkills = userInput.split(",").map(skill => skill.trim().toLowerCase());
+
+    const matchedCompanies = companies.filter(company =>
+      company.requiredSkills.some(skill => inputSkills.includes(skill.toLowerCase()))
+    );
+
+    const resultArea = document.getElementById("resultArea");
+    resultArea.innerHTML = "";
+
+    if (matchedCompanies.length === 0) {
+      resultArea.innerHTML = `<p class="text-danger">No companies matched your skills.</p>`;
+      return;
+    }
+
+    matchedCompanies.forEach(company => {
+      resultArea.innerHTML += `
+        <div class="company-card d-flex align-items-center">
+          <img src="${company.logo}" alt="${company.name}" class="company-logo me-3">
+          <div>
+            <h5>${company.name}</h5>
+            <p>Required Skills: ${company.requiredSkills.join(", ")}</p>
+          </div>
+        </div>
+      `;
+    });
+  });
+  function refreshSkillMatcher() {
+  // Clear the input field
+  document.getElementById("skills").value = "";
+
+  // Clear the results area if you have one
+  const resultArea = document.getElementById("resultArea");
+  if (resultArea) {
+    resultArea.innerHTML = "";
+  }
+}
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
