@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Management</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Link to external CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<style>
+    /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.applied-students-section {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+}
+
+.applied-students-list {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.table-sm {
+    font-size: 0.875rem;
+}
+
+.badge {
+    padding: 5px 10px;
+    font-size: 0.875rem;
+}
+
+.btn-sm {
+    margin: 0 2px;
+}
+
+.table-sm td {
+    vertical-align: middle;
+}
+
+
+</style>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">Student Portal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="student.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Job Portal</a></li>
+                    <li class="nav-item"><a class="nav-link" href="stureport.html">Reports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Company List -->
+    <div class="container mt-4">
+        <h2 class="section-title">Job Portal</h2>
+        <div class="company-list">
+            <!-- Company cards will be dynamically loaded here -->
+        </div>
+    </div>
+
+    <script>
+        // Function to load companies from localStorage
+        function loadCompanies() {
+            const savedData = localStorage.getItem('companies');
+            if (!savedData) {
+                companyList.innerHTML = '<p class="text-center">No companies available at the moment.</p>';
+                return;
+            }
+
+            const data = JSON.parse(savedData);
+            const companies = data.companies || [];
+            const companyList = document.querySelector('.company-list');
+            
+            if (companies.length === 0) {
+                companyList.innerHTML = '<p class="text-center">No companies available at the moment.</p>';
+                return;
+            }
+
+            companyList.innerHTML = companies.map(company => `
+                <div class="company-card">
+                    <img src="${company.logo}" alt="${company.name} logo" class="company-logo">
+                    <div class="company-details">
+                        <h4>${company.name}</h4>
+                        <p><strong>Job Openings:</strong> ${company.jobOpenings}</p>
+                        <p><strong>Job Description:</strong></p>
+                        <p class="job-description">${company.jobDescription || 'No description available'}</p>
+                        <p><strong>Application Deadline:</strong> ${company.applicationDeadline ? new Date(company.applicationDeadline).toLocaleDateString() : 'Not specified'}</p>
+                        <p><strong>Interview Date:</strong> ${company.interviewDate ? new Date(company.interviewDate).toLocaleDateString() : 'Not specified'}</p>
+                        <p><strong>Required Skills:</strong></p>
+                        <ul>
+                            ${company.skills.map(skill => `<li>${skill}</li>`).join('')}
+                        </ul>
+                        
+                        <div class="company-actions">
+                            <button class="btn btn-primary apply-btn" onclick="applyForJob('${company.name}')">
+                                Apply Now
+                            </button>
+                            <button class="btn btn-danger cancel-btn hidden" onclick="cancelApplication('${company.name}')">
+                                Cancel Application
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Function to handle job application
+        function applyForJob(companyName) {
+            // Get student info from localStorage
+            const studentEmail = localStorage.getItem('currentStudentEmail');
+            if (!studentEmail) {
+                alert('Please login to apply for jobs');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Get existing applications or initialize empty array
+            const applications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
+            
+            // Check if already applied
+            const hasApplied = applications.some(app => 
+                app.studentEmail === studentEmail && app.companyName === companyName
+            );
+
+            if (hasApplied) {
+                alert('You have already applied to this company');
+                return;
+            }
+
+            // Get company details
+            const companies = JSON.parse(localStorage.getItem('companies') || '{"companies": []}').companies;
+            const company = companies.find(c => c.name === companyName);
+            
+            if (!company) {
+                alert('Company not found');
+                return;
+            }
+
+            // Check if application deadline has passed
+            if (company.applicationDeadline) {
+                const deadline = new Date(company.applicationDeadline);
+                const now = new Date();
+                if (now > deadline) {
+                    alert('Application deadline has passed for this company');
+                    return;
+                }
+            }
+
+            // Add new application
+            const newApplication = {
+                studentEmail,
+                companyName,
+                applicationDate: new Date().toISOString(),
+                status: 'Pending',
+                jobDescription: company.jobDescription,
+                requiredSkills: company.skills,
+                applicationDeadline: company.applicationDeadline,
+                interviewDate: company.interviewDate
+            };
+
+            applications.push(newApplication);
+
+            // Save applications
+            localStorage.setItem('jobApplications', JSON.stringify(applications));
+            
+            // Update the UI
+            const applyButton = document.querySelector(`button[onclick="applyForJob('${companyName}')"]`);
+            if (applyButton) {
+                applyButton.disabled = true;
+                applyButton.textContent = 'Applied';
+                applyButton.classList.remove('btn-primary');
+                applyButton.classList.add('btn-secondary');
+            }
+
+            alert('Application submitted successfully!');
+            
+            // Trigger storage event for other tabs
+            window.dispatchEvent(new StorageEvent('storage', {
+                key: 'jobApplications',
+                newValue: JSON.stringify(applications)
+            }));
+        }
+
+        // Function to update UI based on applied status
+        function updateApplyButtons() {
+            const studentEmail = localStorage.getItem('currentStudentEmail');
+            if (!studentEmail) return;
+
+            const applications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
+            const appliedCompanies = applications
+                .filter(app => app.studentEmail === studentEmail)
+                .map(app => app.companyName);
+
+            // Update all apply and cancel buttons
+            document.querySelectorAll('.company-actions').forEach(actionsDiv => {
+                const applyButton = actionsDiv.querySelector('.apply-btn');
+                const cancelButton = actionsDiv.querySelector('.cancel-btn');
+                const companyName = applyButton.getAttribute('onclick').match(/'([^']+)'/)[1];
+                
+                if (appliedCompanies.includes(companyName)) {
+                    applyButton.disabled = true;
+                    applyButton.textContent = 'Applied';
+                    applyButton.classList.remove('btn-primary');
+                    applyButton.classList.add('btn-secondary');
+                    
+                    if (cancelButton) {
+                        cancelButton.classList.remove('hidden');
+                    }
+                } else {
+                    applyButton.disabled = false;
+                    applyButton.textContent = 'Apply Now';
+                    applyButton.classList.remove('btn-secondary');
+                    applyButton.classList.add('btn-primary');
+                    
+                    if (cancelButton) {
+                        cancelButton.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        // Load companies when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCompanies();
+            updateApplyButtons();
+        });
+
+        // Listen for storage events (updates from other tabs)
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'companies' || e.key === 'jobApplications') {
+                loadCompanies();
+                updateApplyButtons();
+            }
+        });
+
+        // Check for updates periodically
+        let lastUpdate = 0;
+        setInterval(() => {
+            const savedData = localStorage.getItem('companies');
+            if (savedData) {
+                const data = JSON.parse(savedData);
+                if (data.timestamp > lastUpdate) {
+                    lastUpdate = data.timestamp;
+                    loadCompanies();
+                    updateApplyButtons();
+                }
+            }
+        }, 1000);
+
+        function handleNewApplication(rollNumber, companyName) {
+            const studentProfiles = JSON.parse(localStorage.getItem('studentProfiles') || '[]');
+            const studentProfile = studentProfiles.find(profile => profile.rollNumber === rollNumber);
+            
+            if (studentProfile) {
+                const applications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
+                
+                // Create new application with student profile data
+                const newApplication = {
+                    rollNumber: rollNumber,
+                    companyName: companyName,
+                    studentName: studentProfile.name,
+                    department: studentProfile.department,
+                    cgpa: studentProfile.cgpa,
+                    status: 'pending',
+                    appliedDate: new Date().toISOString()
+                };
+                
+                applications.push(newApplication);
+                localStorage.setItem('jobApplications', JSON.stringify(applications));
+            }
+        }
+
+        function cancelApplication(companyName) {
+            const studentEmail = localStorage.getItem('currentStudentEmail');
+            if (!studentEmail) {
+                alert('Please login to cancel applications');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            if (confirm('Are you sure you want to cancel your application to ' + companyName + '?')) {
+                const applications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
+                const applicationIndex = applications.findIndex(app => 
+                    app.studentEmail === studentEmail && app.companyName === companyName
+                );
+
+                if (applicationIndex !== -1) {
+                    applications.splice(applicationIndex, 1);
+                    localStorage.setItem('jobApplications', JSON.stringify(applications));
+                    
+                    // Update UI
+                    const applyButton = document.querySelector(`button[onclick="applyForJob('${companyName}')"]`);
+                    const cancelButton = document.querySelector(`button[onclick="cancelApplication('${companyName}')"]`);
+                    
+                    if (applyButton) {
+                        applyButton.disabled = false;
+                        applyButton.textContent = 'Apply Now';
+                        applyButton.classList.remove('btn-secondary');
+                        applyButton.classList.add('btn-primary');
+                    }
+                    
+                    if (cancelButton) {
+                        cancelButton.classList.add('hidden');
+                    }
+
+                    alert('Application cancelled successfully!');
+                    
+                    // Trigger storage event for other tabs
+                    window.dispatchEvent(new StorageEvent('storage', {
+                        key: 'jobApplications',
+                        newValue: JSON.stringify(applications)
+                    }));
+                }
+            }
+        }
+    </script>
+
+   <!-- Footer -->
+<footer class="footer py-4">
+    <div class="container">
+        <div class="row">
+            <!-- College Info -->
+            <div class="col-md-4">
+                <img src="assets/logo.jpg" alt="CIET Logo" class="footer-logo mb-3">
+                <p>Narasipuram (P.O), Thondamuthur (Via), Vellimalaipattinam,<br>Coimbatore: 641109, Tamil Nadu.</p>
+                <p><strong>+91 422-2970703</strong></p>
+                <p><a href="mailto:info@cietcbe.edu.in" class="footer-link">info@cietcbe.edu.in</a></p>
+                
+            </div>
+
+            <!-- Main Links -->
+            <div class="col-md-2">
+                <h5>Main Links</h5>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Statutory Bodies</a></li>
+                    <li><a href="#">Non-Statutory Bodies</a></li>
+                    <li><a href="#">Office of the CoE</a></li>
+                    <li><a href="#">IQAC</a></li>
+                </ul>
+            </div>
+
+            <!-- Approvals -->
+            <div class="col-md-2">
+                <h5>Approvals</h5>
+                <ul class="footer-links">
+                    <li><a href="#">AICTE</a></li>
+                    <li><a href="#">Anna University</a></li>
+                    <li><a href="#">UGC</a></li>
+                    <li><a href="#">NAAC</a></li>
+                    <li><a href="#">NIRF</a></li>
+                </ul>
+            </div>
+
+            <!-- Information -->
+            <div class="col-md-2">
+                <h5>Informations</h5>
+                <ul class="footer-links">
+                    <li><a href="#">Mandatory Disclosure</a></li>
+                    <li><a href="#">Committees</a></li>
+                    <li><a href="#">IIC</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Helpdesk</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

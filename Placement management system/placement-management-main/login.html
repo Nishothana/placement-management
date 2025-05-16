@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<style>
+    /* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url('assets/herobg.jpg');
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-size: cover;         /* Makes image cover the whole section */
+  background-repeat: no-repeat;   /* Prevents repetition */
+  background-position: center;    /* Centers the background image */
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+}
+.container {
+    display: flex;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 600px;
+    max-width: 90%;
+    align-items: center;
+}
+
+/* Left: Login Form */
+.login-container {
+    flex: 1;
+    padding: 20px;
+}
+
+</style><body>
+    <div class="container">
+        <!-- Left: Login Form -->
+        <div class="login-container">
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required>
+                
+                <label for="password">Password:</label>
+                <input type="password" id="password" required>
+                
+                <button type="submit">Login</button>
+            </form>
+            <p id="error-message" class="error-message"></p>
+        </div>
+
+        <!-- Right: Logo -->
+        <div class="logo-container">
+            <img src="assets/logo.jpg" alt="CIET Logo">
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById("loginForm").addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                // Get user inputs
+                const email = document.getElementById("email").value;
+                const password = document.getElementById("password").value;
+
+                // Dummy user data (Replace this with actual database authentication later)
+                const users = {
+                    "admin@example.com": { role: "admin", password: "adm123" },
+                    "student1@example.com": { role: "student", password: "stu1" },
+                    "student2@example.com": { role: "student", password: "stu2" },
+                    "student3@example.com": { role: "student", password: "stu3" }
+                };
+
+                if (users[email] && users[email].password === password) {
+                    // Store the email in localStorage
+                    localStorage.setItem('currentStudentEmail', email);
+                    
+                    // Redirect based on role
+                    if (users[email].role === "admin") {
+                        window.location.href = "admin.html";
+                    } else {
+                        // For students, store their profile number and redirect to student dashboard
+                        const profileNumber = email.replace('student', '').replace('@example.com', '');
+                        localStorage.setItem('studentProfileNumber', profileNumber);
+                        window.location.href = "student.html";
+                    }
+                } else {
+                    document.getElementById("error-message").textContent = "Invalid email or password!";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

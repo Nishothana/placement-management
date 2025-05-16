@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg custom-navbar">
+        <div class="container">
+            <a class="navbar-brand" href="#">Student Portal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="stuprofile.html">Profile</a></li>
+                    <li class="nav-item"><a class="nav-link" href="companymanagement.html">Job Applications</a></li>
+                    <li class="nav-item"><a class="nav-link" href="stureport.html">Reports</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="container mt-4">
+        <div class="dashboard-header">Student Dashboard</div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h5>Applied Companies</h5>
+                    <div id="appliedCompanies">
+                        <!-- Applied companies will be loaded here -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="dashboard-card">
+                    <h5>Upcoming Eligible Companies</h5>
+                    <div id="upcomingCompanies">
+                        <!-- Upcoming companies will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Function to load applied companies and upcoming companies
+        function loadDashboardData() {
+            const studentEmail = localStorage.getItem('currentStudentEmail');
+            if (!studentEmail) return;
+
+            const applications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
+            const studentApplications = applications.filter(app => app.studentEmail === studentEmail);
+            const companies = JSON.parse(localStorage.getItem('companies') || '{"companies": []}').companies;
+            
+            const appliedCompaniesDiv = document.getElementById('appliedCompanies');
+            const upcomingCompaniesDiv = document.getElementById('upcomingCompanies');
+            const attendedDetails = document.getElementById('attended-details');
+            const attendedCount = document.getElementById('attended-count');
+            const upcomingDetails = document.getElementById('upcoming-details');
+            const upcomingCount = document.getElementById('upcoming-count');
+            const reportLinks = document.querySelector('.report-links .report-box:first-child ul');
+
+            // Filter completed applications
+            const completedApplications = studentApplications.filter(app => app.status === 'Completed');
+
+            // Update placement overview section
+            if (attendedDetails) {
+                attendedDetails.innerHTML = completedApplications.map(app => `
+                    <li>${app.companyName} - ${new Date(app.applicationDate).toLocaleDateString()}</li>
+                `).join('');
+                attendedCount.textContent = completedApplications.length;
+            }
+
+            // Update placement reports section
+            if (reportLinks) {
+                reportLinks.innerHTML = completedApplications.map(app => `
+                    <li><i class="fas fa-file-pdf"></i><a href="reports/${app.companyName.toLowerCase()}.pdf" target="_blank">${app.companyName}</a></li>
+                `).join('');
+            }
+
+            // Update applied companies section
+            if (studentApplications.length === 0) {
+                appliedCompaniesDiv.innerHTML = '<p>No applications yet</p>';
+            } else {
+                appliedCompaniesDiv.innerHTML = `
+                    <ul class="list-unstyled">
+                        ${studentApplications.map(app => `
+                            <li class="mb-3 p-2 border rounded">
+                                <strong>${app.companyName}</strong>
+                                <br>
+                                <small>Applied on: ${new Date(app.applicationDate).toLocaleDateString()}</small>
+                                <br>
+                                <small>Status: <span class="badge ${app.status === 'Completed' ? 'bg-success' : 'bg-warning'}">${app.status}</span></small>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+            }
+
+            // Update upcoming companies section
+            const appliedCompanyNames = studentApplications.map(app => app.companyName);
+            const upcomingCompanies = companies.filter(company => !appliedCompanyNames.includes(company.name));
+
+            if (upcomingCompanies.length === 0) {
+                upcomingCompaniesDiv.innerHTML = '<p>No upcoming companies available</p>';
+                if (upcomingDetails) {
+                    upcomingDetails.innerHTML = '<li>No upcoming companies available</li>';
+                    upcomingCount.textContent = '0';
+                }
+            } else {
+                upcomingCompaniesDiv.innerHTML = `
+                    <ul class="list-unstyled">
+                        ${upcomingCompanies.map(company => `
+                            <li class="mb-3 p-2 border rounded">
+                                <strong>${company.name}</strong>
+                                <br>
+                                <small>Openings: ${company.jobOpenings}</small>
+                                <br>
+                                <small>Skills Required: ${company.skills.join(', ')}</small>
+                                <br>
+                                <a href="companymanagement.html" class="btn btn-sm btn-primary mt-2">View Details</a>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+
+                if (upcomingDetails) {
+                    upcomingDetails.innerHTML = upcomingCompanies.map(company => `
+                        <li>${company.name} - ${company.jobOpenings} openings</li>
+                    `).join('');
+                    upcomingCount.textContent = upcomingCompanies.length;
+                }
+            }
+        }
+
+        // Add event listeners
+        document.addEventListener('DOMContentLoaded', loadDashboardData);
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'companies' || e.key === 'jobApplications') {
+                loadDashboardData();
+            }
+        });
+    </script>
+
+<!-- Placement Overview Section -->
+<section class="placement-overview">
+  <h3>Placement Overview</h3>
+
+  <div class="overview-boxes">
+    <!-- Companies Attended -->
+    <div class="overview-card expandable">
+      <h3 >Companies Interview Attended </h3>
+      <p id="attended-count">5</p>
+      <p class="clickable-text" onclick="toggleDetails('attended-details')">Click for more<i class="fas fa-chevron-down"></i></p>
+      <ul id="attended-details" class="hidden">
+        <li>TCS</li>
+        <li>Infosys</li>
+        <li>Zoho</li>
+        <li>Wipro</li>
+        <li>Accenture</li>
+        <!-- Add more -->
+      </ul>
+    </div>
+
+    <!-- Resume Upload and View -->
+    <div class="overview-card">
+      <h3>Resume</h3>
+      <form action="/upload-resume" method="POST" enctype="multipart/form-data">
+        <label for="resumeFile">Upload Resume (PDF):</label>
+        <input type="file" name="resume" id="resumeFile" accept=".pdf" required>
+        <button type="submit">Upload</button>
+      </form>
+      <div class="resume-display">
+        <p>Current Resume:</p>
+        <a href="assets/Nishothana Resume.pdf" target="_blank" download>Download Resume</a>
+      </div>
+    </div>
+
+    <!-- Upcoming Eligible Companies -->
+    <div class="overview-card expandable">
+      <h3 >Upcoming Eligible Companies</h3>
+      <p id="upcoming-count">3</p>
+      <p class="clickable-text" onclick="toggleDetails('upcoming-details')">Click for more<i class="fas fa-chevron-down"></i></p>
+      <ul id="upcoming-details" class="hidden">
+        <li>Amazon</li>
+        <li>IBM</li>
+        <li>HCL</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Student report Section -->
+<section class="reports-section">
+  <h2 class="section-title">Placement Reports</h2>
+  <div class="report-links">
+
+    <div class="report-box">
+      <h4>Companies Attended</h4>
+      <ul>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/infosys.pdf" target="_blank">Infosys</a></li>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/wipro.pdf" target="_blank">Wipro</a></li>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/tcs.pdf" target="_blank">TCS</a></li>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/accenture.pdf" target="_blank">Accenture</a></li>
+      </ul>
+    </div>
+
+    <div class="report-box">
+      <h4>Report Files</h4>
+      <ul>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/overall-report.pdf" target="_blank">Overall Placement Report</a></li>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/department-wise.pdf" target="_blank">Department-wise Report</a></li>
+        <li><i class="fas fa-file-pdf"></i><a href="reports/company-wise.pdf" target="_blank">Company-wise Report</a></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+<!-- Skill Matcher Section -->
+<section id="skill-matcher" class="container my-5 position-relative">
+  <span class="refresh-btn" onclick="refreshSkillMatcher()">×</span>
+  
+  <h2 class="text-center mb-4">Skill Based Companies</h2>
+  <form id="skillForm" class="mb-4">
+    <label for="skills" class="form-label">Enter your skills (comma separated):</label>
+    <input type="text" class="form-control" id="skills" placeholder="e.g. Java, Python, HTML">
+    <button type="submit" class="btn btn-success mt-3">Find Companies</button>
+  </form>
+
+  <!-- You can add a result display area below if needed -->
+  <div id="resultArea"></div>
+</section>
+
+
+
+
+
+
+</body>
+
+<!-- Company Management Section -->
+<section class="company-carousel-section">
+    <h3 class="carousel-title">Top Recruiters</h3>
+    <div class="carousel-container">
+      <div class="carousel-track">
+        <!-- Repeat this block for each company -->
+        <div class="company-card">
+          <img src="assets/tcs-logo.png" alt="TCS Logo">
+        </div>
+        <div class="company-card">
+            <img src="assets/cog-logo.png" alt="cognizant Logo">
+          </div>
+          <div class="company-card">
+            <img src="assets/dev-logo.png" alt="dev Logo">
+          </div>
+          <div class="company-card">
+            <img src="assets/bosch-logo.png" alt="bosch Logo">
+          </div>
+        <div class="company-card">
+          <img src="assets/infosys-logo.png" alt="Infosys Logo">
+        </div>
+        <div class="company-card">
+          <img src="assets/wipro-logo.png" alt="Wipro Logo">
+        </div>
+        <div class="company-card">
+          <img src="assets/hcl-logo.png" alt="HCL Logo">
+        </div>
+        <!-- Duplicate the same for smooth infinite loop -->
+        <div class="company-card">
+          <img src="assets/tcs-logo.png" alt="TCS Logo">
+        </div>
+        <div class="company-card">
+            <img src="assets/cog-logo.png" alt="cognizant Logo">
+          </div>
+          <div class="company-card">
+            <img src="assets/dev-logo.png" alt="dev Logo">
+          </div>
+          <div class="company-card">
+            <img src="assets/bosch-logo.png" alt="bosch Logo">
+          </div>
+        <div class="company-card">
+          <img src="assets/infosys-logo.png" alt="Infosys Logo">
+        </div>
+        <div class="company-card">
+            <img src="assets/wipro-logo.png" alt="Wipro Logo">
+          </div>
+          <div class="company-card">
+            <img src="assets/hcl-logo.png" alt="HCL Logo">
+          </div>
+      </div>
+    </div>
+  </section>
+  <div>
+
+  </div>
+
+<!-- Footer -->
+<footer class="footer py-4">
+    <div class="container">
+        <div class="row">
+            <!-- College Info -->
+            <div class="col-md-4">
+                <img src="assets/logo.jpg" alt="CIET Logo" class="footer-logo mb-3">
+                <p>Narasipuram (P.O), Thondamuthur (Via), Vellimalaipattinam,<br>Coimbatore: 641109, Tamil Nadu.</p>
+                <p><strong>+91 422-2970703</strong></p>
+                <p><a href="mailto:info@cietcbe.edu.in" class="footer-link">info@cietcbe.edu.in</a></p>
+                
+            </div>
+
+            <!-- Main Links -->
+            <div class="col-md-2">
+                <h5>Main Links</h5>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Statutory Bodies</a></li>
+                    <li><a href="#">Non-Statutory Bodies</a></li>
+                    <li><a href="#">Office of the CoE</a></li>
+                    <li><a href="#">IQAC</a></li>
+                </ul>
+            </div>
+
+            <!-- Approvals -->
+            <div class="col-md-2">
+                <h5>Approvals</h5>
+                <ul class="footer-links">
+                    <li><a href="#">AICTE</a></li>
+                    <li><a href="#">Anna University</a></li>
+                    <li><a href="#">UGC</a></li>
+                    <li><a href="#">NAAC</a></li>
+                    <li><a href="#">NIRF</a></li>
+                </ul>
+            </div>
+
+            <!-- Information -->
+            <div class="col-md-2">
+                <h5>Informations</h5>
+                <ul class="footer-links">
+                    <li><a href="#">Mandatory Disclosure</a></li>
+                    <li><a href="#">Committees</a></li>
+                    <li><a href="#">IIC</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Helpdesk</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</html>
+<script>
+  function toggleDetails(id) {
+    const element = document.getElementById(id);
+    element.classList.toggle("hidden");
+  }
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  const companies = [
+    {
+      name: "Infosys",
+      logo: "assets/infosys-logo.png",
+      requiredSkills: ["Java", "Python"]
+    },
+    {
+      name: "Wipro",
+      logo: "assets/wipro-logo.png",
+      requiredSkills: ["Java", "C++", "SQL"]
+      
+    },
+    {
+      name: "TCS",
+      logo: "assets/tcs-logo.png",
+      requiredSkills: ["Java", "Spring", "SQL"]
+    }
+    ,
+    {
+      name: "Devtown",
+      logo: "assets/dev-logo.png",
+      requiredSkills: ["Java", "Python", "Machine Learning"]
+    },
+    {
+      name: "Cognizant",
+      logo: "assets/cog-logo.png",
+      requiredSkills: ["Java", "HTML", "CSS"]
+    },
+    {
+      name: "HCL",
+      logo: "assets/hcl-logo.png",
+      requiredSkills: ["Java", "JavaScript", "React"]
+    }
+    ,
+    {
+      name: "Bosch",
+      logo: "assets/bosch-logo.png",
+      requiredSkills: ["C++", "Embedded Systems"]
+    },
+  
+    {
+      name: "HCL",
+      logo: "assets/hcl-logo.png",
+      requiredSkills: ["Java", "C++", "SQL"]
+    }
+  ];
+
+  document.getElementById("skillForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    const userInput = document.getElementById("skills").value;
+    const inputSkills = userInput.split(",").map(skill => skill.trim().toLowerCase());
+
+    const matchedCompanies = companies.filter(company =>
+      company.requiredSkills.some(skill => inputSkills.includes(skill.toLowerCase()))
+    );
+
+    const resultArea = document.getElementById("resultArea");
+    resultArea.innerHTML = "";
+
+    if (matchedCompanies.length === 0) {
+      resultArea.innerHTML = `<p class="text-danger">No companies matched your skills.</p>`;
+      return;
+    }
+
+    matchedCompanies.forEach(company => {
+      resultArea.innerHTML += `
+        <div class="company-card d-flex align-items-center">
+          <img src="${company.logo}" alt="${company.name}" class="company-logo me-3">
+          <div>
+            <h5>${company.name}</h5>
+            <p>Required Skills: ${company.requiredSkills.join(", ")}</p>
+          </div>
+        </div>
+      `;
+    });
+  });
+  function refreshSkillMatcher() {
+  // Clear the input field
+  document.getElementById("skills").value = "";
+
+  // Clear the results area if you have one
+  const resultArea = document.getElementById("resultArea");
+  if (resultArea) {
+    resultArea.innerHTML = "";
+  }
+}
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        </div>
+      `;
+    });
+  });
+  function refreshSkillMatcher() {
+  // Clear the input field
+  document.getElementById("skills").value = "";
+
+  // Clear the results area if you have one
+  const resultArea = document.getElementById("resultArea");
+  if (resultArea) {
+    resultArea.innerHTML = "";
+  }
+}
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    function navigateToProfile() {
+        const studentEmail = localStorage.getItem('currentStudentEmail');
+        if (!studentEmail) {
+            alert('Please login first');
+            window.location.href = 'login.html';
+            return;
+        }
+        window.location.href = 'placement-management-main/stuprofile.html';
+    }
+</script>

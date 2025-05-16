@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Student Profile</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+   <!-- Navbar -->
+   <nav class="navbar navbar-expand-lg custom-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="admin_student.html">Student Portal</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="student.html">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="stuprofile.html">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="stureport.html">Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="index.html">Logout</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+  <div class="student-profile">
+    <div class="profile-container">
+      <div class="left-panel">
+        <img src="assets/stu1pic.jpg" alt="Student Photo" class="profile-photo" />
+        <div class="basic-info">
+          <h3>Name: Nishothana A</h3>
+          <p>Roll No: 22BCS054</p>
+          <p>Department: BE(CSE)</p>
+          <p>Batch: 2022-2026</p>
+          <p>Mobile No: 9443436350</p>
+          <p><strong>Tutor :</strong> <span class="tutor">Mrs.Yoga ( CS )</span><br><span class="tutor">Mrs.Abirami ( CS )</span></p>
+        </div>
+      </div>
+    <div class="right-panel">
+      <table class="profile-table">
+        <tr>
+          <td><strong>Roll No:</strong> 22BCS054</td>
+          <td><strong>Gender:</strong> Female</td>
+          <td><strong>Father's Name:</strong> Athisivan K</td>
+        </tr>
+        <tr>
+          <td><strong>Father's Age:</strong></td>
+          <td><strong>Father's Occupation:</strong> Business</td>
+          <td><strong>Annual Income:</strong> ₹</td>
+        </tr>
+        <tr>
+          <td><strong>Mother's Name:</strong> Lakshmi S</td>
+          <td><strong>Mother's Age:</strong></td>
+          <td><strong>Mother's Occupation:</strong> House Wife</td>
+        </tr>
+        <tr>
+          <td><strong>Mother's Annual Income:</strong></td>
+          <td><strong>Mother's Tongue:</strong> Tamil</td>
+          <td><strong>Religion:</strong> Hindu</td>
+        </tr>
+        <tr>
+          <td><strong>Student Mobile No:</strong> 9843036350</td>
+          <td><strong>Parent Mobile No:</strong> 9443436350</td>
+          <td><strong>Mother Mobile No:</strong> 8940036350</td>
+        </tr>
+        <tr>
+          <td><strong>Community:</strong> MBC</td>
+          <td><strong>Caste:</strong> Pirmalai Kallars</td>
+          <td><strong>Nationality:</strong> Indian</td>
+        </tr>
+        <tr>
+          <td><strong>Date Of Birth:</strong> 21/09/2004</td>
+          <td><strong>Place Of Birth:</strong></td>
+          <td><strong>Passport No:</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Date Of Issue:</strong></td>
+          <td><strong>Expiry Date:</strong></td>
+          <td><strong>Place Of Issue:</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Visa No.:</strong></td>
+          <td><strong>Visa Issued Date:</strong></td>
+          <td><strong>Visa Expiry Date:</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Visa Type:</strong></td>
+          <td><strong>Visa Entry Type:</strong></td>
+          <td><strong>Admission No:</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Admission Date:</strong> 05/11/2022</td>
+          <td><strong>Date Of Join:</strong> 05/01/2023</td>
+          <td><strong>Financial Category:</strong> Self</td>
+        </tr>
+        <tr>
+          <td><strong>Admission Type:</strong> Regular</td>
+          <td><strong>Admission Category:</strong> Government Quota</td>
+          <td><strong>Aadhar Number:</strong> 955753065572</td>
+        </tr>
+        <tr>
+          <td><strong>Physically Challenged:</strong> No </td>
+          <td><strong>Andaman & Nicobar Native:</strong> No</td>
+          <td><strong>Parent Ex Service Man:</strong> No</td>
+        </tr>
+        <tr>
+          <td><strong>Parent Ex Service Identity No.:</strong></td>
+          <td><strong>Parent Ex Service Rank:</strong></td>
+          <td><strong>Parent Ex Service Position:</strong></td>
+        </tr>
+        <tr>
+          <td><strong>Visually Challenged:</strong> No</td>
+          <td><strong>Percentage of Visibility:</strong></td>
+          <td><strong>Language Subject:</strong> English</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- Application Details Section -->
+  <div class="application-details mt-4">
+    <h3>Application Details</h3>
+    <div class="table-responsive">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Company Name</th>
+            <th>Applied Date</th>
+            <th>Status</th>
+            <th>Interview Date</th>
+          </tr>
+        </thead>
+        <tbody id="applicationTableBody">
+          <!-- Applications will be loaded here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script>
+    const currentStudentEmail = localStorage.getItem('currentStudentEmail');
+    if (!currentStudentEmail) {
+        alert('Please login first');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Function to load student profile based on email
+    function loadStudentProfile() {
+        // Get student details from localStorage
+        const students = JSON.parse(localStorage.getItem('students') || '[]');
+        const currentStudent = students.find(student => student.email === currentStudentEmail);
+
+        if (currentStudent) {
+            // Update basic info
+            document.querySelector('.basic-info h3').textContent = `Name: ${currentStudent.name}`;
+            document.querySelector('.basic-info p:nth-child(2)').textContent = `Roll No: ${currentStudent.rollNumber}`;
+            document.querySelector('.basic-info p:nth-child(3)').textContent = `Department: ${currentStudent.department}`;
+            document.querySelector('.basic-info p:nth-child(4)').textContent = `Batch: ${currentStudent.batch}`;
+            document.querySelector('.basic-info p:nth-child(5)').textContent = `Mobile No: ${currentStudent.phone}`;
+            document.querySelector('.profile-photo').src = currentStudent.profilePicture || 'assets/default-profile.jpg';
+
+            // Update profile table
+            const table = document.querySelector('.profile-table');
+            const rows = table.getElementsByTagName('tr');
+            
+            rows[0].cells[0].innerHTML = `<strong>Roll No:</strong> ${currentStudent.rollNumber}`;
+            rows[0].cells[1].innerHTML = `<strong>Gender:</strong> ${currentStudent.gender || 'N/A'}`;
+            rows[0].cells[2].innerHTML = `<strong>Father's Name:</strong> ${currentStudent.fatherName || 'N/A'}`;
+            
+            rows[1].cells[0].innerHTML = `<strong>Father's Age:</strong> ${currentStudent.fatherAge || 'N/A'}`;
+            rows[1].cells[1].innerHTML = `<strong>Father's Occupation:</strong> ${currentStudent.fatherOccupation || 'N/A'}`;
+            rows[1].cells[2].innerHTML = `<strong>Annual Income:</strong> ${currentStudent.fatherIncome || 'N/A'}`;
+            
+            rows[2].cells[0].innerHTML = `<strong>Mother's Name:</strong> ${currentStudent.motherName || 'N/A'}`;
+            rows[2].cells[1].innerHTML = `<strong>Mother's Age:</strong> ${currentStudent.motherAge || 'N/A'}`;
+            rows[2].cells[2].innerHTML = `<strong>Mother's Occupation:</strong> ${currentStudent.motherOccupation || 'N/A'}`;
+            
+            rows[3].cells[0].innerHTML = `<strong>Mother's Annual Income:</strong> ${currentStudent.motherIncome || 'N/A'}`;
+            rows[3].cells[1].innerHTML = `<strong>Mother's Tongue:</strong> ${currentStudent.motherTongue || 'N/A'}`;
+            rows[3].cells[2].innerHTML = `<strong>Religion:</strong> ${currentStudent.religion || 'N/A'}`;
+            
+            rows[4].cells[0].innerHTML = `<strong>Student Mobile No:</strong> ${currentStudent.phone || 'N/A'}`;
+            rows[4].cells[1].innerHTML = `<strong>Parent Mobile No:</strong> ${currentStudent.parentPhone || 'N/A'}`;
+            rows[4].cells[2].innerHTML = `<strong>Mother Mobile No:</strong> ${currentStudent.motherPhone || 'N/A'}`;
+            
+            rows[5].cells[0].innerHTML = `<strong>Community:</strong> ${currentStudent.community || 'N/A'}`;
+            rows[5].cells[1].innerHTML = `<strong>Caste:</strong> ${currentStudent.caste || 'N/A'}`;
+            rows[5].cells[2].innerHTML = `<strong>Nationality:</strong> ${currentStudent.nationality || 'N/A'}`;
+            
+            rows[6].cells[0].innerHTML = `<strong>Date Of Birth:</strong> ${currentStudent.dob || 'N/A'}`;
+            rows[6].cells[1].innerHTML = `<strong>Place Of Birth:</strong> ${currentStudent.pob || 'N/A'}`;
+            rows[6].cells[2].innerHTML = `<strong>Passport No:</strong> ${currentStudent.passportNo || 'N/A'}`;
+            
+            rows[11].cells[0].innerHTML = `<strong>Admission Date:</strong> ${currentStudent.admissionDate || 'N/A'}`;
+            rows[11].cells[1].innerHTML = `<strong>Date Of Join:</strong> ${currentStudent.joinDate || 'N/A'}`;
+            rows[11].cells[2].innerHTML = `<strong>Financial Category:</strong> ${currentStudent.financialCategory || 'N/A'}`;
+            
+            rows[12].cells[0].innerHTML = `<strong>Admission Type:</strong> ${currentStudent.admissionType || 'N/A'}`;
+            rows[12].cells[1].innerHTML = `<strong>Admission Category:</strong> ${currentStudent.admissionCategory || 'N/A'}`;
+            rows[12].cells[2].innerHTML = `<strong>Aadhar Number:</strong> ${currentStudent.aadharNumber || 'N/A'}`;
+        } else {
+            alert('Student profile not found');
+            window.location.href = 'login.html';
+        }
+    }
+
+    // Function to load and display application details
+    function loadApplicationDetails() {
+        const applications = JSON.parse(localStorage.getItem('jobApplications') || '[]');
+        const studentApplications = applications.filter(app => app.studentEmail === currentStudentEmail);
+        const tableBody = document.getElementById('applicationTableBody');
+        
+        if (studentApplications.length === 0) {
+            tableBody.innerHTML = '<tr><td colspan="4" class="text-center">No applications found</td></tr>';
+            return;
+        }
+
+        // Get company details for interview dates
+        const companies = JSON.parse(localStorage.getItem('companies') || '{"companies": []}').companies;
+        
+        tableBody.innerHTML = studentApplications.map(app => {
+            const company = companies.find(c => c.name === app.companyName);
+            const interviewDate = company ? new Date(company.interviewDate).toLocaleDateString() : 'Not scheduled';
+            const appliedDate = new Date(app.applicationDate).toLocaleDateString();
+            
+            return `
+                <tr>
+                    <td>${app.companyName}</td>
+                    <td>${appliedDate}</td>
+                    <td><span class="badge ${getStatusBadgeClass(app.status)}">${app.status}</span></td>
+                    <td>${interviewDate}</td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    // Function to get appropriate badge class based on status
+    function getStatusBadgeClass(status) {
+        switch(status.toLowerCase()) {
+            case 'pending':
+                return 'bg-warning';
+            case 'accepted':
+                return 'bg-success';
+            case 'rejected':
+                return 'bg-danger';
+            case 'completed':
+                return 'bg-info';
+            default:
+                return 'bg-secondary';
+        }
+    }
+
+    // Load profile and application details when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        loadStudentProfile();
+        loadApplicationDetails();
+    });
+</script>
+
+<style>
+    .application-details {
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .application-details h3 {
+        margin-bottom: 20px;
+        color: #333;
+    }
+
+    .badge {
+        padding: 5px 10px;
+        font-size: 0.875rem;
+    }
+
+    .table th {
+        background-color: #f8f9fa;
+    }
+</style>
+
+<!-- Footer -->
+<footer class="footer py-4">
+  <div class="container">
+      <div class="row">
+          <!-- College Info -->
+          <div class="col-md-4">
+              <img src="assets/logo.jpg" alt="CIET Logo" class="footer-logo mb-3">
+              <p>Narasipuram (P.O), Thondamuthur (Via), Vellimalaipattinam,<br>Coimbatore: 641109, Tamil Nadu.</p>
+              <p><strong>+91 422-2970703</strong></p>
+              <p><a href="mailto:info@cietcbe.edu.in" class="footer-link">info@cietcbe.edu.in</a></p>
+              
+          </div>
+
+          <!-- Main Links -->
+          <div class="col-md-2">
+              <h5>Main Links</h5>
+              <ul class="footer-links">
+                  <li><a href="#">About Us</a></li>
+                  <li><a href="#">Statutory Bodies</a></li>
+                  <li><a href="#">Non-Statutory Bodies</a></li>
+                  <li><a href="#">Office of the CoE</a></li>
+                  <li><a href="#">IQAC</a></li>
+              </ul>
+          </div>
+
+          <!-- Approvals -->
+          <div class="col-md-2">
+              <h5>Approvals</h5>
+              <ul class="footer-links">
+                  <li><a href="#">AICTE</a></li>
+                  <li><a href="#">Anna University</a></li>
+                  <li><a href="#">UGC</a></li>
+                  <li><a href="#">NAAC</a></li>
+                  <li><a href="#">NIRF</a></li>
+              </ul>
+          </div>
+
+          <!-- Information -->
+          <div class="col-md-2">
+              <h5>Informations</h5>
+              <ul class="footer-links">
+                  <li><a href="#">Mandatory Disclosure</a></li>
+                  <li><a href="#">Committees</a></li>
+                  <li><a href="#">IIC</a></li>
+                  <li><a href="#">Contact Us</a></li>
+                  <li><a href="#">Helpdesk</a></li>
+              </ul>
+          </div>
+      </div>
+  </div>
+</footer>
+</body>
+</html>

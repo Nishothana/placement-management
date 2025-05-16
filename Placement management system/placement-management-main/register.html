@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center">Register</h2>
+    <form id="registrationForm" onsubmit="handleRegistration(event)">
+        <!-- Basic Information -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Basic Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="rollNumber">Roll Number</label>
+                        <input type="text" id="rollNumber" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="department">Department</label>
+                        <input type="text" id="department" class="form-control" value="BE(CSE)" readonly>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="batch">Batch</label>
+                        <input type="text" id="batch" class="form-control" value="2022-2026" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Personal Information -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Personal Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="gender">Gender</label>
+                        <select id="gender" class="form-control" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="dob">Date of Birth</label>
+                        <input type="date" id="dob" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="pob">Place of Birth</label>
+                        <input type="text" id="pob" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="community">Community</label>
+                        <input type="text" id="community" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="caste">Caste</label>
+                        <input type="text" id="caste" class="form-control">
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="nationality">Nationality</label>
+                        <input type="text" id="nationality" class="form-control" value="Indian" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Parent Information -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Parent Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="fatherName">Father's Name</label>
+                        <input type="text" id="fatherName" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="fatherAge">Father's Age</label>
+                        <input type="number" id="fatherAge" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="fatherOccupation">Father's Occupation</label>
+                        <input type="text" id="fatherOccupation" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="fatherIncome">Father's Annual Income</label>
+                        <input type="text" id="fatherIncome" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="parentPhone">Parent's Phone</label>
+                        <input type="tel" id="parentPhone" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="motherName">Mother's Name</label>
+                        <input type="text" id="motherName" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="motherAge">Mother's Age</label>
+                        <input type="number" id="motherAge" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="motherOccupation">Mother's Occupation</label>
+                        <input type="text" id="motherOccupation" class="form-control" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="motherIncome">Mother's Annual Income</label>
+                        <input type="text" id="motherIncome" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="motherPhone">Mother's Phone</label>
+                        <input type="tel" id="motherPhone" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="motherTongue">Mother Tongue</label>
+                        <input type="text" id="motherTongue" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Academic Information -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Academic Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="admissionDate">Admission Date</label>
+                        <input type="date" id="admissionDate" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="joinDate">Date of Join</label>
+                        <input type="date" id="joinDate" class="form-control" required>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="admissionType">Admission Type</label>
+                        <select id="admissionType" class="form-control" required>
+                            <option value="">Select Type</option>
+                            <option value="Regular">Regular</option>
+                            <option value="Lateral">Lateral</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="admissionCategory">Admission Category</label>
+                        <select id="admissionCategory" class="form-control" required>
+                            <option value="">Select Category</option>
+                            <option value="Government Quota">Government Quota</option>
+                            <option value="Management Quota">Management Quota</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="financialCategory">Financial Category</label>
+                        <select id="financialCategory" class="form-control" required>
+                            <option value="">Select Category</option>
+                            <option value="Self">Self</option>
+                            <option value="Scholarship">Scholarship</option>
+                        </select>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label for="aadharNumber">Aadhar Number</label>
+                        <input type="text" id="aadharNumber" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Account Information -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4>Account Information</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="form-control" required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" class="form-control" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success w-100">Register</button>
+        <p class="text-center mt-2">Already have an account? <a href="login.html">Login here</a></p>
+    </form>
+</div>
+
+<script>
+function handleRegistration(event) {
+    event.preventDefault();
+
+    // Validate passwords match
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+    if (password !== confirmPassword) {
+        alert('Passwords do not match!');
+        return;
+    }
+
+    // Create student object
+    const student = {
+        name: document.getElementById('fullname').value,
+        email: document.getElementById('email').value,
+        rollNumber: document.getElementById('rollNumber').value,
+        department: document.getElementById('department').value,
+        batch: document.getElementById('batch').value,
+        phone: document.getElementById('phone').value,
+        gender: document.getElementById('gender').value,
+        dob: document.getElementById('dob').value,
+        pob: document.getElementById('pob').value,
+        community: document.getElementById('community').value,
+        caste: document.getElementById('caste').value,
+        nationality: document.getElementById('nationality').value,
+        fatherName: document.getElementById('fatherName').value,
+        fatherAge: document.getElementById('fatherAge').value,
+        fatherOccupation: document.getElementById('fatherOccupation').value,
+        fatherIncome: document.getElementById('fatherIncome').value,
+        parentPhone: document.getElementById('parentPhone').value,
+        motherName: document.getElementById('motherName').value,
+        motherAge: document.getElementById('motherAge').value,
+        motherOccupation: document.getElementById('motherOccupation').value,
+        motherIncome: document.getElementById('motherIncome').value,
+        motherPhone: document.getElementById('motherPhone').value,
+        motherTongue: document.getElementById('motherTongue').value,
+        admissionDate: document.getElementById('admissionDate').value,
+        joinDate: document.getElementById('joinDate').value,
+        admissionType: document.getElementById('admissionType').value,
+        admissionCategory: document.getElementById('admissionCategory').value,
+        financialCategory: document.getElementById('financialCategory').value,
+        aadharNumber: document.getElementById('aadharNumber').value,
+        profilePicture: 'assets/default-profile.jpg' // Default profile picture
+    };
+
+    // Get existing students or initialize empty array
+    const students = JSON.parse(localStorage.getItem('students') || '[]');
+    
+    // Check if email already exists
+    if (students.some(s => s.email === student.email)) {
+        alert('Email already registered!');
+        return;
+    }
+
+    // Add new student
+    students.push(student);
+    localStorage.setItem('students', JSON.stringify(students));
+
+    // Store user credentials
+    const users = JSON.parse(localStorage.getItem('users') || '[]');
+    users.push({
+        email: student.email,
+        password: password,
+        role: 'student'
+    });
+    localStorage.setItem('users', JSON.stringify(users));
+
+    alert('Registration successful!');
+    window.location.href = 'login.html';
+}
+</script>
+
+</body>
+</html>
